@@ -26,12 +26,23 @@ object CipherUtils {
         val invertedAlphabet1 = alphabet1.entries.associate { (k, v) -> v to k }
         val invertedAlphabet2 = alphabet2.entries.associate { (k, v) -> v to k }
         var currentRotation = 1
+        var lastMappedIndex = -1
 
-        return encrypted.map { char ->
+        return encrypted.mapIndexed { index, char ->
             val cipherMap = if (currentRotation == 1) invertedAlphabet1 else invertedAlphabet2
-            val original = cipherMap[char.toString()] ?: char
-            currentRotation = (currentRotation % 2) + 1
-            original
+            val original = cipherMap[char.toString()]
+            if (original != null) {
+                // Only increment rotation if previous character was mapped and sequential
+                if (lastMappedIndex == index - 1) {
+                    currentRotation = (currentRotation % 2) + 1
+                } else {
+                    currentRotation = 1
+                }
+                lastMappedIndex = index
+                original
+            } else {
+                char
+            }
         }.joinToString("")
     }
 }
