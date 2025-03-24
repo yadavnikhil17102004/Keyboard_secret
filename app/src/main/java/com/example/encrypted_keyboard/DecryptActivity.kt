@@ -6,6 +6,8 @@ import com.example.encrypted_keyboard.databinding.ActivityDecryptBinding
 import android.view.inputmethod.EditorInfo
 import android.text.Editable
 import android.text.TextWatcher
+import android.content.ClipboardManager
+import android.content.Context
 
 class DecryptActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDecryptBinding
@@ -22,7 +24,13 @@ class DecryptActivity : AppCompatActivity() {
                 binding.decryptedTextView.text = CipherUtils.decryptText(encryptedText)
             }
         })
+
+        binding.pasteButton.setOnClickListener {
+            val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            clipboard.primaryClip?.getItemAt(0)?.text?.toString()?.let { clipboardText ->
+                binding.encryptedInput.setText(clipboardText)
+                // The TextWatcher will handle decryption automatically
+            }
+        }
     }
-
-
 }

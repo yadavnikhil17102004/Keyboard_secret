@@ -18,11 +18,24 @@
 
     <EditText
         android:id="@+id/encryptedInput"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Enter encrypted text"
         app:layout_constraintTop_toBottomOf="@id/decryptedTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/pasteButton"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
         android:inputType="textMultiLine"/>
+
+    <Button
+        android:id="@+id/pasteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Paste"
+        app:layout_constraintTop_toTopOf="@id/encryptedInput"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/encryptedInput"
+        android:layout_marginEnd="8dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
